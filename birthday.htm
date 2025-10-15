@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>誕生日まであと何日？</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #a1c4fd, #c2e9fb);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .card {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+      padding: 30px 40px;
+      text-align: center;
+      width: 320px;
+      transition: transform 0.2s ease;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+    }
+    h1 {
+      font-size: 22px;
+      margin-bottom: 20px;
+      color: #333;
+    }
+    input[type="date"] {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 8px;
+      margin: 10px 0;
+      width: 100%;
+      font-size: 14px;
+    }
+    button {
+      background: #4facfe;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 20px;
+      font-size: 15px;
+      cursor: pointer;
+      margin-top: 15px;
+      transition: background 0.3s ease;
+    }
+    button:hover {
+      background: #00f2fe;
+    }
+    #result {
+      margin-top: 25px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>🎂 誕生日まであと何日？</h1>
+    <label>今日の日付を選択：</label><br>
+    <input type="date" id="today"><br>
+    <label>誕生日を選択：</label><br>
+    <input type="date" id="birthday"><br>
+    <button onclick="calculateDays()">計算する</button>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    function calculateDays() {
+      const todayInput = document.getElementById("today").value;
+      const birthdayInput = document.getElementById("birthday").value;
+      const result = document.getElementById("result");
+
+      if (!todayInput || !birthdayInput) {
+        result.innerHTML = "⚠️ 日付を両方選択してください。";
+        return;
+      }
+
+      const today = new Date(todayInput);
+      const birthday = new Date(birthdayInput);
+
+      // 誕生日を今年の日付に合わせる
+      birthday.setFullYear(today.getFullYear());
+
+      // 誕生日が今年すでに過ぎていたら翌年に設定
+      if (birthday < today) {
+        birthday.setFullYear(today.getFullYear() + 1);
+      }
+
+      const diffTime = birthday - today;
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+      result.innerHTML = `🎉 あなたの誕生日まで、あと <strong>${diffDays}</strong> 日です！`;
+    }
+  </script>
+</body>
+</html>
